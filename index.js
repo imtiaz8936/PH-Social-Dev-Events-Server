@@ -57,6 +57,17 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/joined-events", async (req, res) => {
+      const email = req.query.email;
+      console.log(email);
+      const query = {};
+      if (email) {
+        query.joiner_email = email;
+      }
+      const result = await eventJoinersCollection.find(query).toArray();
+      res.send(result);
+    });
+
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
