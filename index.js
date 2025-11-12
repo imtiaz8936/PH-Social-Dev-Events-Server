@@ -85,6 +85,22 @@ async function run() {
       res.send(result);
     });
 
+    app.patch("/update-event/:id", async (req, res) => {
+      const { id } = req.params;
+      const updatedEvent = req.body;
+      const query = { _id: new ObjectId(id) };
+      const update = {
+        $set: updatedEvent,
+      };
+      const options = {};
+      const result = await socialEventsCollection.updateOne(
+        query,
+        update,
+        options
+      );
+      res.send(result);
+    });
+
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
