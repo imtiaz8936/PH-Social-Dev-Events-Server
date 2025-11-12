@@ -27,12 +27,20 @@ async function run() {
 
     const db = client.db("social_events_db");
     const socialEventsCollection = db.collection("events");
+    const eventJoinersCollection = db.collection("event_joiners");
 
     // apis
 
     app.post("/create-event", async (req, res) => {
       const newEvent = req.body;
       const result = await socialEventsCollection.insertOne(newEvent);
+      res.send(result);
+    });
+
+    app.post("/join-event", async (req, res) => {
+      const newJoinEvent = req.body;
+      console.log(newJoinEvent);
+      const result = await eventJoinersCollection.insertOne(newJoinEvent);
       res.send(result);
     });
 
