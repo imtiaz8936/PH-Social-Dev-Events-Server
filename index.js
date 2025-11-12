@@ -59,12 +59,21 @@ async function run() {
 
     app.get("/joined-events", async (req, res) => {
       const email = req.query.email;
-      console.log(email);
       const query = {};
       if (email) {
         query.joiner_email = email;
       }
       const result = await eventJoinersCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    app.get("/manage-events", async (req, res) => {
+      const email = req.query.email;
+      const query = {};
+      if (email) {
+        query.creator_email = email;
+      }
+      const result = await socialEventsCollection.find(query).toArray();
       res.send(result);
     });
 
