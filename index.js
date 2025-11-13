@@ -39,7 +39,6 @@ async function run() {
 
     app.post("/join-event", async (req, res) => {
       const newJoinEvent = req.body;
-      console.log(newJoinEvent);
       const result = await eventJoinersCollection.insertOne(newJoinEvent);
       res.send(result);
     });
@@ -63,7 +62,10 @@ async function run() {
       if (email) {
         query.joiner_email = email;
       }
-      const result = await eventJoinersCollection.find(query).toArray();
+      const result = await eventJoinersCollection
+        .find(query)
+        .sort({ created_at: 1 })
+        .toArray();
       res.send(result);
     });
 
