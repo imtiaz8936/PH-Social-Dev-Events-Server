@@ -48,6 +48,15 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/latest-upcoming-events", async (req, res) => {
+      const result = await socialEventsCollection
+        .find()
+        .sort({ event_date: -1 })
+        .limit(6)
+        .toArray();
+      res.send(result);
+    });
+
     app.get("/upcoming-events/event-details/:id", async (req, res) => {
       const { id } = req.params;
       const result = await socialEventsCollection.findOne({
@@ -64,7 +73,7 @@ async function run() {
       }
       const result = await eventJoinersCollection
         .find(query)
-        .sort({ created_at: 1 })
+        .sort({ event_date: 1 })
         .toArray();
       res.send(result);
     });
