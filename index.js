@@ -29,17 +29,14 @@ const verifyFireBaseToken = async (req, res, next) => {
   try {
     const userInfo = await admin.auth().verifyIdToken(token);
     req.token_email = userInfo.email;
-    console.log("after token validation", userInfo);
     next();
   } catch {
-    console.log("invalid token");
     return res.status(401).send({ message: "Unauthorized Access" });
   }
 };
 
 // mongoDB Connetion
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.dbz4f6f.mongodb.net/?appName=Cluster0`;
-// const uri = `${process.env.DB_LOCAL}`;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -51,7 +48,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
 
     const db = client.db("social_events_db");
     const socialEventsCollection = db.collection("events");
@@ -156,7 +153,7 @@ async function run() {
       res.send(result);
     });
 
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
